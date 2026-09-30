@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "AgriSense AI"
+description = "A bilingual crop advisory platform for Indian farmers, agronomists, and agricultural extension officers to manage farms, request context-aware crop guidance, and track advisory actions."
+version = "1.0.0"
+id = "artifacts/agri-sense"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21545
+
+[services.development]
+run = "pnpm --filter @workspace/agri-sense run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/agri-sense", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/agri-sense/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21545"
+BASE_PATH = "/"
